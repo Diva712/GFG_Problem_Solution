@@ -1,0 +1,95 @@
+Given an non-negative integer n. You are only allowed to make set bit unset. You have to find the maximum possible value of query so that after performing the given operations, no three consecutive bits of the integer query are set-bits. 
+
+Example 1:
+
+Input:
+n = 2
+Output: 
+2
+Explanation: 
+2's binary form is 10, no 3 consecutive set bits are here. 
+So, 2 itself would be answer.
+Example 2:
+
+Input:
+n = 7
+Output: 
+6
+Explanation: 
+7's binary form is .....00111.We can observe that 3
+consecutive bits are set bits. This is not allowed.
+So, we can perfrom the operation of changing set 
+bit to unset bit. Now, the number 
+becomes 6 that is .....00110. It satifies the 
+given condition. Hence, the maximum possible 
+value is 6.
+
+Your Task:   You don't need to read input or print anything. Your task is to complete the function noConseBits(), which takes integer n as input parameter and returns the maximum value possible so that it satifies the given condition.
+
+Expected Time Complexity: O(1)
+Expected Auxiliary Space: O(1)
+
+#########
+solution
+//{ Driver Code Starts
+// Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+// User function Template for C++
+
+class Solution {
+
+  public:
+    int noConseBits(int n) {
+        // code here
+        if(n==1){
+            return 1;
+        }
+        int arr[32];
+        for(int i=31 ; i>=0 ; i--){
+            if(n & (1<<(31-i))){
+                arr[i] = 1;
+            }
+        }
+        int ans = 0;
+        for(int i=0 ; i<=29 ; i++){
+            if(arr[i]==1){
+                ans = ans + (1<<(31-i));
+                if(arr[i+1]==1){
+                    arr[i+2] = 0;
+                }
+            }
+        }
+        if(arr[30]==1){
+            ans = ans +2;
+        }
+        if(arr[31]==1){
+            ans = ans+1;
+        }
+        return ans;
+    }
+};
+
+
+//{ Driver Code Starts.
+
+int main() {
+
+    int tt;
+    cin >> tt;
+    Solution sol;
+    while (tt--) {
+
+        int n;
+        cin >> n;
+        int ans = sol.noConseBits(n);
+        cout << ans << '\n';
+    }
+
+    return 0;
+}
+
+// } Driver Code Ends
