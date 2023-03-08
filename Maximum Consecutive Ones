@@ -1,0 +1,73 @@
+You are given array nums of n length and an integer k .return the maximum number of consecutive 1's in the array if you can flip at most k 0's.
+
+Example:
+
+Input:
+n = 11
+nums = [1,1,1,0,0,0,1,1,1,1,0]
+k = 2
+Output:
+6
+Explanation:
+You can flip 2 0 and obtain  [1,1,1,0,0,1,1,1,1,1,1]
+Your Task:
+You don't have to read input or print anything. Your task is to complete the function longestOnes() which takes the integer n and array nums and integer K as input and returns the longest ones which can be obtained after k flip.
+
+Expected Time Complexity: O(n)
+Expected Space Complexity: O(1)
+
+########
+solution
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+class Solution {
+  public:
+    int longestOnes(int n, vector<int>& nums, int k) {
+        // Code here
+        int i=0;
+        int j=0;
+        int zerocount =0;
+        int ans = INT_MIN;
+        while(j<n){
+            if(nums[j]==0){
+                zerocount++;
+                while(zerocount>k){
+                    if(nums[i]==0){
+                        zerocount--;
+                    }
+                    i++;
+                }
+            }
+            ans = max(ans,j-i+1);
+            j++;
+        }
+        return ans;
+    }
+};
+
+//{ Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n;
+        cin >> n;
+        vector<int> nums;
+        for (int i = 0; i < n; ++i) {
+            int x;
+            cin >> x;
+            nums.push_back(x);
+        }
+
+        int k;
+        cin >> k;
+
+        Solution obj;
+        cout << obj.longestOnes(n, nums, k) << endl;
+    }
+    return 0;
+}
+// } Driver Code Ends
