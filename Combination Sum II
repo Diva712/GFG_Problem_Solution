@@ -1,0 +1,135 @@
+Given an array of integers arr, length of the array  N, and an integer K, find all the unique combinations in arr where the sum of the combination is equal to K. Each number can only be used once in a combination.
+
+Example 1:
+
+Input: 
+N = 5, K = 7
+arr[] = { 1, 2, 3, 3, 5 }
+Output:
+{ { 1, 3, 3 }, { 2, 5 } }
+Explanation:
+1 + 3 + 3 = 7
+2 + 5 = 7
+Example 2:
+
+Input:
+N = 6, K = 35
+arr[] = { 5, 10, 15, 20, 25, 30 }
+Output:
+{ { 5,10, 20 }, { 5, 30 }, { 10, 25 }, { 15, 20 } }
+Explanation:
+5 + 10 + 20 = 35
+5 + 30 = 35
+10 + 25 = 35
+15 + 20 = 35
+Your Task:
+You don't need to read input or print anything. Your task is to complete the function CombinationSum2() which takes arr[],n, and k as input parameters and returns all the unique combinations.
+ 
+ 
+ #####3333
+ solution
+ //{ Driver Code Starts
+//Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+//User function Template for C++
+
+class Solution{
+public:
+    /*void generate (int index , int sum , int n , vector<int>&ds , vector<vector<int>>&vec vector<int>&arr){
+        if(sum == 0){
+            vec.push_back(ds);
+            return;
+        }
+        
+        for(int i = index ; i<n ; i++){
+            if(i>index && arr[i-1] == arr[i]){
+                continue;
+            }
+            ds.push_back(arr[i]);
+            generate (index+1 , sum , n , ds , vec , arr);
+            ds.pop_back();
+        }
+    }*/
+    void solve(vector<int> &arr,int n,int k,int ind,vector<vector<int>>&ans,vector<int>&ds) {
+
+        if(k == 0) {
+
+            ans.push_back(ds);
+
+            return;
+
+        }
+
+        if(arr[ind] <= k) {
+
+            for(int i=ind;i<n;i++) {
+
+                if(i > ind and arr[i] == arr[i-1])
+
+                    continue;
+
+                ds.push_back(arr[i]);
+
+                solve(arr,n,k-arr[i],i+1,ans,ds);
+
+                ds.pop_back();
+
+            }
+
+            
+
+        }
+
+    }
+   vector<vector<int>> CombinationSum2(vector<int> &arr,int n,int k)
+
+    {
+
+        vector<vector<int>>ans;
+
+        vector<int>ds;
+
+        sort(arr.begin(),arr.end());
+
+        solve(arr,n,k,0,ans,ds);
+
+        return ans;
+
+    }
+};
+
+//{ Driver Code Starts.
+
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n,k;
+        cin>>n>>k;
+        vector<int> arr(n);
+        for(int i=0;i<n;i++)
+        {
+            cin>>arr[i];
+        }
+        Solution ob;
+        auto obj=ob.CombinationSum2(arr,n,k);
+        for(int i=0;i<obj.size();i++)
+        {
+            for(int j=0;j<obj[i].size();j++)
+            {
+                cout<<obj[i][j]<<" ";
+            }
+            cout<<"\n";
+        }
+        if(obj.size()==0) cout<<"\n";
+    }
+    return 0;
+}
+// } Driver Code Ends
