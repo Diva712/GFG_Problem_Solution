@@ -1,0 +1,92 @@
+Find all valid combinations of K numbers that sum upto to N such that the following conditions are true:
+
+Only number 1 through 9 are used.
+Each number is used atmost once.
+Return the list of all possible valid combinations.
+
+Note: The list must not contain the same combination twice, and the combinations returned in any order.
+ 
+
+Example 1:
+
+Input:
+K = 3
+N = 7
+Output: { {1, 2, 4} }
+Explanation: 
+1+ 2+ 4 = 7
+There are no other valid combinations.
+ 
+
+Example 2:
+
+Input:
+K = 3
+N = 9
+Output: { {1, 2, 6}, {1, 3, 5}, {2, 3, 4} }
+Explanation: 
+1 + 2 + 6 = 9
+1 + 3 + 5 = 9
+2 + 3 + 4 = 9
+There are no other valid combinations.
+ 
+
+Example 3:
+
+Input:
+K = 4
+N = 3
+Output: { { } }
+Explanation: There are no valid combinations.
+Using 4 different numbers in the range {1, 9}, the smallest sum we can get is 1 + 2 + 3 + 4 = 10 and since 10 > 3, there are no valid combinations.
+
+#########33
+soltuiom
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+class Solution {
+  public:
+    void generate (int start , int end , vector<int>&ds , vector<vector<int>>&vec , int K , int N){
+        if(N==0 && ds.size()==K){
+            vec.push_back(ds);
+            return;
+        }
+        for(int i=start ; i<=end ; i++){
+            ds.push_back(i);
+            generate(i+1 , end , ds ,vec , K , N-i);
+            ds.pop_back();
+        }
+    }
+    vector<vector<int>> combinationSum(int K, int N) {
+        // code here
+        vector<int>ds;
+        vector<vector<int>>vec;
+        generate(1 , 9 , ds ,vec , K , N);
+        return vec;
+    }
+};
+
+//{ Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int N, K;
+        cin >> K >> N;
+
+        Solution obj;
+        vector<vector<int>> ans = obj.combinationSum(K, N);
+        sort(ans.begin(), ans.end());
+        for (auto &arr : ans) {
+            for (auto it : arr) cout << it << ' ';
+            cout << endl;
+        }
+    }
+    return 0;
+}
+// } Driver Code Ends
