@@ -1,0 +1,80 @@
+Given a number N. Your task is to check whether it is fascinating or not.
+Fascinating Number: When a number(should contain 3 digits or more) is multiplied by 2 and 3, and when both these products are concatenated with the original number, then it results in all digits from 1 to 9 present exactly once.
+
+Example 1:
+
+Input: 
+N = 192
+Output: Fascinating
+Explanation: After multiplication with 2
+and 3, and concatenating with original
+number, number will become 192384576 
+which contains all digits from 1 to 9.
+Example 2:
+
+Input: 
+N = 853
+Output: Not Fascinating
+Explanation: It's not a fascinating
+number.
+Your Task:  
+You don't need to read input or print anything. Your task is to complete the function fascinating() which takes the integer n parameters and returns boolean(True or False) denoting the answer.
+
+
+############
+solution
+
+//{ Driver Code Starts
+// Initial Template for C++
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+
+// } Driver Code Ends
+//User function template for C++
+class Solution{
+public:
+	
+	bool fascinating(int n) {
+	    // code here//
+	    string string1 = to_string(n);
+	    string string2 = to_string(n*2);
+	    string string3 = to_string(n*3);
+	    string  str = (string1 + string2) + string3 ;
+	    
+	    unordered_map<char,int>mpp;
+	    for(int i=0 ; i<str.length() ; i++){
+	        mpp[str[i]]++;
+	    }
+	    
+	    for(auto it:mpp){
+	        int temp = it.first;
+	        if(it.second>1 || (temp<49 || temp>57)){
+	            return 0;
+	        }
+	    }
+	    return 1;
+	}
+};
+
+//{ Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n;
+        cin >> n;
+        Solution ob;
+        auto ans = ob.fascinating(n);
+        if (ans) {
+            cout << "Fascinating\n";
+        } else {
+            cout << "Not Fascinating\n";
+        }
+    }
+    return 0;
+}
+// } Driver Code Ends
