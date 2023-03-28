@@ -1,0 +1,94 @@
+The n-queens puzzle is the problem of placing n queens on a (n×n) chessboard such that no two queens can attack each other.
+Given an integer n, find all distinct solutions to the n-queens puzzle. Each solution contains distinct board configurations of the n-queens’ placement, where the solutions are a permutation of [1,2,3..n] in increasing order, here the number in the ith place denotes that the ith-column queen is placed in the row with that number. For eg below figure represents a chessboard [3 1 4 2].
+
+
+
+ 
+
+Example 1:
+
+Input:
+1
+Output:
+[1]
+Explaination:
+Only one queen can be placed 
+in the single cell available.
+Example 2:
+
+Input:
+4
+Output:
+[2 4 1 3 ] [3 1 4 2 ]
+Explaination:
+These are the 2 possible solutions.
+
+##########
+solution
+//{ Driver Code Starts
+// Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+// User function Template for C++
+
+class Solution{
+public:
+    void solve (int col , vector<vector<int>>&ans ,  vector<int>&board , vector<int>&left , vector<int>&left_D , vector<int>&right_D , int n){
+        if(col == n){
+            ans.push_back(board);
+            return ; 
+        }
+        for(int row = 0 ; row<n ; row++){
+            if(left[row] == 0 && left_D[row+col] == 0 && right_D[(n-1)+(col-row)] == 0){
+                board[col] = row+1;
+                left[row] = 1;
+                left_D[row+col] = 1;
+                right_D[(n-1)+(col-row)] = 1;
+                solve(col+1 , ans , board , left , left_D , right_D , n);
+                left[row] = 0; // backtracking
+                left_D[row+col] = 0; // backtracking
+                right_D[(n-1)+(col-row)] = 0; // backtracking
+            }
+        }
+    }
+    vector<vector<int>> nQueen(int n) {
+        // code here
+        vector<vector<int>>ans;
+        vector<int>board(n,0);
+        vector<int>left(n,0);
+        vector<int>left_D(2*n-1 , 0);
+        vector<int>right_D(2*n-1 , 0);
+        solve(0 , ans , board , left  ,left_D , right_D , n);
+        return ans;
+    }
+};
+
+//{ Driver Code Starts.
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        
+        Solution ob;
+        vector<vector<int>> ans = ob.nQueen(n);
+        if(ans.size() == 0)
+            cout<<-1<<"\n";
+        else {
+            for(int i = 0;i < ans.size();i++){
+                cout<<"[";
+                for(int u: ans[i])
+                    cout<<u<<" ";
+                cout<<"] ";
+            }
+            cout<<endl;
+        }
+    }
+    return 0;
+}
+// } Driver Code Ends
