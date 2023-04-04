@@ -1,0 +1,82 @@
+Alice and Bob take turns playing a game, with Alice starting first.
+Initially, there is a number N on the chalkboard. On each players's turn, that player makes a move consisting of:
+
+Choosing any x with 0 < x < N  and  N % x == 0.
+Replacing the number N on the chalkboard with N - x.
+Also, if a player cannnot make a move, they lose the game.
+Return true if and only if Alice wins the game, assuming both players play optimally.
+
+ 
+
+Example 1:
+
+Input:
+N = 2
+Output: True
+Explanation: Alice chooses 1, and Bob has no more moves.
+ 
+
+Example 2:
+
+Input:
+N = 3
+Output: False
+Explanation: Alice chooses 1, Bob chooses 1, and Alice has no more moves.
+ 
+ #########
+ solution
+ //{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+class Solution {
+public:
+    bool function(int x , int n , vector<int>&dp){
+        if(n<1){
+            return false;
+        }
+        if(dp[n] !=-1){
+            return dp[n];
+        }
+        if(n == 1){
+            if(x%2 == 0){
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
+        for(int i=1 ; i*i<=n ; i++){
+            if(x%i == 0){
+                return dp[n] = function(x+1,n-i,dp);
+            }
+        }
+        return dp[n] = false;
+    }
+    bool divisorGame(int N) {
+        // code here
+       vector<int>dp(N+1 , -1);
+       return function(0,N,dp);
+       
+    }
+};
+
+//{ Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int N; 
+        cin >> N;
+        
+        Solution obj;
+        bool ans = obj.divisorGame(N);
+        if(ans) cout<<"True"<<endl;
+        else cout<<"False"<<endl;
+    }
+    return 0;
+}
+// } Driver Code Ends
